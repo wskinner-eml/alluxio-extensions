@@ -266,9 +266,13 @@ public class GSGUnderFileSystem extends ObjectUnderFileSystem {
       return getBlobStatus(blob);
     } catch (StorageException e) {
       if (e.getCode() == 404) { // file not found, possible for exists calls
-        return null;
+          return null;
       }
-      throw new IOException(String.format("Failed to get object status of %s, %s", key, mBucketName), e);
+        LOG.error("Google Storage returned a Storage Error", e);
+        throw new IOException(String.format(
+            "Failed to get object status of %s, %s due to %s (code %s) from cause %s",
+            key, mBucketName, e.getMessage(), e.getCode(), e.getCause()
+        ), e);
     }
   }
 
