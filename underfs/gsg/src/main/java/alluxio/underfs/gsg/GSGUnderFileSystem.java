@@ -80,18 +80,18 @@ public class GSGUnderFileSystem extends ObjectUnderFileSystem {
       throws IOException {
     String bucketName = UnderFileSystemUtils.getBucketName(uri);
     GoogleCredentials credentials;
-    if (conf.containsKey(GSGPropertyKey.GSG_CREDENTIAL_PATH)) {
-      String credsPath = conf.getValue(GSGPropertyKey.GSG_CREDENTIAL_PATH);
-      credentials = GoogleCredentials
-          .fromStream(new FileInputStream(credsPath))
-          .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
-      LOG.info("Created GSGUnderFileSystem with credentials in {}", credsPath);
-    } else {
+//    if (conf.containsKey(GSGPropertyKey.GSG_CREDENTIAL_PATH)) {
+//      String credsPath = conf.getValue(GSGPropertyKey.GSG_CREDENTIAL_PATH);
+//      credentials = GoogleCredentials
+//          .fromStream(new FileInputStream(credsPath))
+//          .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
+//      LOG.info("Created GSGUnderFileSystem with credentials in {}", credsPath);
+//    } else {
       // The environment variable GOOGLE_APPLICATION_CREDENTIALS is set
       // or the application is running in Google App engine or compute engine
       credentials = GoogleCredentials.getApplicationDefault();
       LOG.info("Created GSGUnderFileSystem with default Google application credentials");
-    }
+//    }
 
     Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
     return new GSGUnderFileSystem(uri, storage, bucketName,

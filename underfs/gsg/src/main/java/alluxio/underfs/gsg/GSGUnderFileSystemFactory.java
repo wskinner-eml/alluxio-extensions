@@ -17,6 +17,7 @@ import alluxio.underfs.UnderFileSystem;
 import alluxio.underfs.UnderFileSystemConfiguration;
 import alluxio.underfs.UnderFileSystemFactory;
 
+import com.google.cloud.storage.StorageException;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import org.slf4j.Logger;
@@ -45,8 +46,9 @@ public final class GSGUnderFileSystemFactory implements UnderFileSystemFactory {
 
     try {
       return GSGUnderFileSystem.createInstance(new AlluxioURI(path), conf);
-    } catch (IOException e) {
-      LOG.error("Failed to create GSGUnderFileSystem.", e);
+    } catch (StorageException e) {
+      LOG.error("Failed to create GSGUnderFileSystem - StorageException(" + e.getCode() + ", " + e.getMessage(), e);
+      e.printStackTrace();
       throw Throwables.propagate(e);
     } catch (Throwable e) {
       LOG.error("Failed to create GSGUnderFileSystem.", e);
