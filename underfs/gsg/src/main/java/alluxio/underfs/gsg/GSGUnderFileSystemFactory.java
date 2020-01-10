@@ -48,6 +48,9 @@ public final class GSGUnderFileSystemFactory implements UnderFileSystemFactory {
     } catch (IOException e) {
       LOG.error("Failed to create GSGUnderFileSystem.", e);
       throw Throwables.propagate(e);
+    } catch (Throwable t) {
+      LOG.error("Failed to create GSGUnderFileSystem.", e);
+      throw Throwables.propagate(e);
     }
   }
 
